@@ -139,7 +139,7 @@ class MainCell: UICollectionViewCell {
             carImage.centerXAnchor.constraint(equalTo: centerXAnchor)
         ])
     }
-    
+//    MARK: - Configure Data
     func configure(model: CarList) {
         brandName.text = model.brand
         modelName.text = model.name

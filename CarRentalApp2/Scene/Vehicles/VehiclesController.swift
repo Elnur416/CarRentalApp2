@@ -100,6 +100,7 @@ class VehiclesController: UIViewController {
     }
 }
 
+//MARK: - CollectionView setup
 extension VehiclesController: UICollectionViewDataSource, UICollectionViewDelegate, UICollectionViewDelegateFlowLayout {
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         if viewModel.isSearchActive {

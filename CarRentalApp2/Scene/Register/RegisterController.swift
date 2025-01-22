@@ -127,7 +127,6 @@ class RegisterController: UIViewController {
 
         configureUI()
         configureConstraints()
-//        viewModel.readData()
         viewModel.getPath(realm: realm)
         viewModel.fetchItems(realm: realm)
         errorHandler()
@@ -214,7 +213,6 @@ class RegisterController: UIViewController {
             present(alert, animated: true)
             return
         }
-        
         let user = Users()
         user.fullname = fullname
         user.birthdate = birthdate

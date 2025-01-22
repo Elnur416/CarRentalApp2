@@ -73,6 +73,7 @@ class HeaderView: UICollectionReusableView {
     }
 }
 
+//MARK: - CollectionView setup
 extension HeaderView: UICollectionViewDataSource, UICollectionViewDelegate, UICollectionViewDelegateFlowLayout {
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         categories.count

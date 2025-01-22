@@ -13,7 +13,7 @@ class CarDatas {
     
    
     func loadData() {
-//        Categories
+//      Categories
         let category1 = CategoryModel(image: "sedan",
                                       name: "Sedan",
                                       size: 2)

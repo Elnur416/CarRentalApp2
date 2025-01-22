@@ -47,6 +47,7 @@ class SearchController: UIViewController {
         return c
     }()
     
+//    MARK: - Life cycle
     override func viewDidLoad() {
         super.viewDidLoad()
 
@@ -88,6 +89,7 @@ class SearchController: UIViewController {
     }
 }
 
+//MARK: - CollectionView setup
 extension SearchController: UICollectionViewDataSource, UICollectionViewDelegate, UICollectionViewDelegateFlowLayout {
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         if viewModel.isSearchActive {

@@ -8,7 +8,7 @@
 import UIKit
 
 class HeaderCell: UICollectionViewCell {
-    
+//    MARK: UI elements
     private lazy var cellView: UIView = {
         let v = UIView()
         v.backgroundColor = .white
@@ -43,6 +43,7 @@ class HeaderCell: UICollectionViewCell {
         return label
     }()
     
+//    MARK: - Life cycle
     override init(frame: CGRect) {
         super.init(frame: frame)
         
@@ -83,7 +84,7 @@ class HeaderCell: UICollectionViewCell {
             categoryNameLabel.trailingAnchor.constraint(equalTo: cellView.trailingAnchor, constant: 0)
             ])
     }
-    
+//    MARK: - Configure Data
     func configure(model: CategoryList) {
         cellImage.image = UIImage(named: model.image ?? "")
         categoryNameLabel.text = model.name
