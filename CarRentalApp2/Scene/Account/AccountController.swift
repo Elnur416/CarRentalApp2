@@ -246,9 +246,9 @@ class AccountController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        viewModel.fetchData(realm: realm)
         configureUI()
         configureConstraints()
-        viewModel.fetchData(realm: realm)
         configureUserInfo()
     }
     
@@ -283,10 +283,10 @@ class AccountController: UIViewController {
          userEmail,
          editEmail].forEach { emailView.addSubview($0) }
         
-        if let savedImage = loadImageFromDocuments() {
-            profileImage.image = savedImage
-        } else {
+        if viewModel.users[viewModel.manager.getUserIndex(key: .getUserIndex)].profileImage == nil {
             profileImage.image = UIImage(systemName: "person.circle")
+        } else {
+            profileImage.image = viewModel.users[viewModel.manager.getUserIndex(key: .getUserIndex)].profileImage
         }
     }
     
@@ -423,20 +423,6 @@ class AccountController: UIViewController {
         present(alert, animated: true, completion: nil)
     }
     
-    private func loadImageFromDocuments() -> UIImage? {
-        let fileManager = FileManager.default
-        if let files = fileManager.urls(for: .documentDirectory, in: .userDomainMask).first {
-            let path = files.appendingPathComponent("ProfileImage.png")
-            
-            if fileManager.fileExists(atPath: path.path) {
-                return UIImage(contentsOfFile: path.path)
-            } else {
-                return nil
-            }
-        }
-        return nil
-    }
-    
     private func deleteImageFromDocuments() {
         let fileManager = FileManager.default
         if let documentsURL = fileManager.urls(for: .documentDirectory, in: .userDomainMask).first {
@@ -553,21 +539,11 @@ extension AccountController: UIImagePickerControllerDelegate, UINavigationContro
     func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey : Any]) {
         guard let pickedImage = info[UIImagePickerController.InfoKey.originalImage] as? UIImage else { return }
         profileImage.image = pickedImage
-        saveImageToDocuments(image: pickedImage)
-        picker.dismiss(animated: true, completion: nil)
-    }
-    
-    private func saveImageToDocuments(image: UIImage) {
-        guard let data = image.pngData() else { return }
-        let fileManager = FileManager.default
-        if let files = fileManager.urls(for: .documentDirectory, in: .userDomainMask).first {
-            let path = files.appendingPathComponent("ProfileImage.png")
-            
-            do {
-                try data.write(to: path)
-            } catch {
-                print(error.localizedDescription)
-            }
+        //        saveImageToDocuments(image: pickedImage)
+        let item = viewModel.users[viewModel.manager.getUserIndex(key: .getUserIndex)]
+        try? realm?.write {
+            item.profileImage = pickedImage
         }
+        picker.dismiss(animated: true, completion: nil)
     }
 }
