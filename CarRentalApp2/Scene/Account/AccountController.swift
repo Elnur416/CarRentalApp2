@@ -414,30 +414,19 @@ class AccountController: UIViewController {
         alert.addAction(UIAlertAction(title: "Remove Photo", style: .destructive, handler: { _ in
             if let image = UIImage(systemName: "person.circle") {
                 self.profileImage.image = image
-                self.deleteImageFromDocuments()
+                do {
+                    try self.realm?.write {
+                        self.viewModel.users[self.viewModel.manager.getUserIndex(key: .getUserIndex)].profileImageData = nil
+                    }
+                } catch {
+                    print(error.localizedDescription)
+                }
             }
         }))
         
         alert.addAction(UIAlertAction(title: "Cancel", style: .cancel, handler: nil))
         
         present(alert, animated: true, completion: nil)
-    }
-    
-    private func deleteImageFromDocuments() {
-        let fileManager = FileManager.default
-        if let documentsURL = fileManager.urls(for: .documentDirectory, in: .userDomainMask).first {
-            let fileURL = documentsURL.appendingPathComponent("ProfileImage.png")
-            
-            if fileManager.fileExists(atPath: fileURL.path) {
-                do {
-                    try fileManager.removeItem(at: fileURL)
-                } catch {
-                    print(error.localizedDescription)
-                }
-            } else {
-                return
-            }
-        }
     }
     //    MARK: - Edit Setup
     @objc private func handleEditFullname() {
